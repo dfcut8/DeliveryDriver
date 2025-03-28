@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MainCarManager : MonoBehaviour
 {
-    [SerializeField] float steerSpeed = 0.5f;
-    [SerializeField] float moveSpeed = 0.02f;
+    [SerializeField] float steerSpeed = 100f;
+    [SerializeField] float moveSpeed = 6f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,10 +14,10 @@ public class MainCarManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float steerAmount = Input.GetAxis("Horizontal");
-        transform.Rotate(0, 0, steerSpeed * -steerAmount);
+        float steer = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
+        transform.Rotate(0, 0, -steer); // Negative because Unity's Z-axis is the forward direction for 2D objects, and we want to rotate around Z to steer
         
-        float moveAmount = Input.GetAxis("Vertical");
-        transform.Translate(0, moveSpeed * moveAmount, 0);
+        float move = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        transform.Translate(0, move, 0);
     }
 }
