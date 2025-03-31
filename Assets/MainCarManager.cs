@@ -3,7 +3,7 @@ using UnityEngine;
 public class MainCarManager : MonoBehaviour
 {
     [SerializeField] float steerSpeed = 100f;
-    [SerializeField] float moveSpeed = 6f;
+    [SerializeField] float moveSpeed = 9f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
