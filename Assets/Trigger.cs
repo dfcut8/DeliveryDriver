@@ -11,21 +11,24 @@ public class Trigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"Trigger detected. Name: {other.gameObject.name}");
+        Debug.Log($"Trigger detected. Name: {other.gameObject.name}, Tag: {other.gameObject.tag}");
 
-        if (spriteRenderer != null)
+        if (other.CompareTag("TriggerPackage"))
         {
-            // Change the color of the sprite to red
-            spriteRenderer.color = Color.red;
+            Debug.Log("Package Triggered! Setting sprite color to green and deactivating the package.");
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = Color.green;
+                other.gameObject.SetActive(false);
+            }
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (spriteRenderer != null)
+        else if (other.CompareTag("TriggerDelivery"))
         {
-            // Change the color of the sprite to red
-            spriteRenderer.color = Color.white;
+            Debug.Log("Delivery Triggered! Setting sprite color to white.");
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = Color.white;
+            }
         }
     }
 }
