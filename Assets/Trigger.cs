@@ -15,20 +15,40 @@ public class Trigger : MonoBehaviour
 
         if (other.CompareTag("TriggerPackage"))
         {
-            Debug.Log("Package Triggered! Setting sprite color to green and deactivating the package.");
-            if (spriteRenderer != null)
+            Debug.Log("Package Triggered!");
+            if (checkSpriteRendererColor(Color.green))
             {
-                spriteRenderer.color = Color.green;
-                other.gameObject.SetActive(false);
+                Debug.Log("Package already picked. No action taken.");
+                return;
             }
+            Debug.Log("Package picked! Changing sprite color to green and destroying the package.");
+            changeSpriteRendererColor(Color.green);
+            Destroy(other.gameObject);
         }
         else if (other.CompareTag("TriggerDelivery"))
         {
             Debug.Log("Delivery Triggered! Setting sprite color to white.");
-            if (spriteRenderer != null)
+            changeSpriteRendererColor(Color.white);
+        }
+    }
+
+    private void changeSpriteRendererColor(Color color)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = color;
+        }
+    }
+
+    private bool checkSpriteRendererColor(Color color)
+    {
+        if (spriteRenderer != null)
+        {
+            if (spriteRenderer.color == color)
             {
-                spriteRenderer.color = Color.white;
+                return true;
             }
         }
+        return false;
     }
 }
