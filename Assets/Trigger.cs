@@ -3,9 +3,20 @@ using UnityEngine;
 public class Trigger : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
+    MainCarManager mainCar;
 
     void Start()
     {
+        var mainCarObject = GameObject.FindGameObjectWithTag("MainCar");
+        if (mainCarObject != null)
+        {
+            mainCar = mainCarObject.GetComponent<MainCarManager>();
+            Debug.Log("MainCarManager found and assigned.");
+        }
+        else
+        {
+            Debug.LogError("MainCarManager not found. Ensure the MainCar has the correct tag.");
+        }
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
@@ -29,6 +40,28 @@ public class Trigger : MonoBehaviour
         {
             Debug.Log("Delivery Triggered! Setting sprite color to white.");
             changeSpriteRendererColor(Color.white);
+        }
+        else if (other.CompareTag("TriggerSlowDown"))
+        {
+            Debug.Log("Slow Down Triggered! Setting sprite color to red.");
+            changeSpriteRendererColor(Color.red);
+            if (mainCar != null)
+            {
+                mainCar.IsSlowingDown = true;
+                mainCar.IsBoosting = false;
+                Debug.Log("MainCar is slowing down.");
+            }
+        }
+        else if (other.CompareTag("TriggerSpeedUp"))
+        {
+            Debug.Log("Boost Triggered! Setting sprite color to blue.");
+            changeSpriteRendererColor(Color.blue);
+            if (mainCar != null)
+            {
+                mainCar.IsBoosting = true;
+                mainCar.IsSlowingDown = false;
+                Debug.Log("MainCar is boosting.");
+            }
         }
     }
 
